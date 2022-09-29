@@ -1,0 +1,24 @@
+name: Sync Upstream
+on:
+  schedule:
+  - cron:  "*/15 * * * *"
+  workflow_dispatch:
+
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+
+    - name: Manage Repo
+      uses: IWDTestBot/action-manage-repo@master
+      with:
+        src_repo: "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
+        src_branch: "master"
+        dest_branch: "master"
+        workflow_branch: "workflow"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
